@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Application\Actions\Machine\Vending\DeleteProductAction;
+use App\Application\Actions\Machine\Vending\GetProductAction;
+use App\Application\Actions\Machine\Vending\ListProductAction;
+use App\Application\Actions\Machine\Vending\OrderProductAction;
+use App\Application\Actions\Machine\Vending\StoreProductAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -23,5 +28,13 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
+    });
+
+    $app->group('/vending', function (Group $group): void {
+        $group->get('', ListProductAction::class);
+        $group->post('', StoreProductAction::class);
+        $group->post('/order', OrderProductAction::class);
+        $group->get('/product/{name}', GetProductAction::class);
+        $group->delete('/product/{name}', DeleteProductAction::class);
     });
 };
