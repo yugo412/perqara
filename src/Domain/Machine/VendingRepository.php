@@ -11,4 +11,6 @@ interface VendingRepository
     public function get(string $name): ?Vending;
 
     public function remove(string $name): void;
+
+    public function order(float $total): Order;
 }

@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "name": "Aqua",
+        "price": 2000
+    },
+    {
+        "name": "Sosro",
+        "price": 5000
+    },
+    {
+        "name": "Cola",
+        "price": 7000
+    },
+    {
+        "name": "Milo",
+        "price": 9000
+    },
+    {
+        "name": "Coffee",
+        "price": 12000
+    }
+]

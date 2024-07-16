@@ -12,14 +12,22 @@ class OrderProductAction extends VendingAction
         5000,
     ];
 
-    private function isValidCombination(float $total): bool
+    private function combination(array $denominations, int $n, float $sum): int
     {
-        arsort($this->denominations, SORT_NUMERIC);
-        foreach ($this->denominations as $amount) {
-            $total = $total - (floor($total / $amount) * $amount);
+        if ($sum === floatval(0)) {
+            return 1;
         }
 
-        return $total === 0.0;
+        if ($sum < 0) {
+            return 0;
+        }
+
+        if ($n <= 0) {
+            return 0;
+        }
+
+        return $this->combination($denominations, $n - 1, $sum) +
+            $this->combination($denominations, $n, $sum - $denominations[$n - 1]);
     }
 
     protected function action(): Response
@@ -37,7 +45,7 @@ class OrderProductAction extends VendingAction
         $validator->rule(function (string $field, array $value): bool {
             unset($field);
 
-            return $this->isValidCombination(array_sum($value));
+            return $this->combination($this->denominations, count($this->denominations), array_sum($value)) >= 1;
         }, 'amount')->message(sprintf('{field} only accepts denominations: %s', implode(', ', $this->denominations)));
 
         if (!$validator->validate()) {
@@ -47,6 +55,8 @@ class OrderProductAction extends VendingAction
             ], 422);
         }
 
-        return $this->respondWithData([], 201);
+        $total = array_sum($validator->data()['amount']);
+
+        return $this->respondWithData($this->vendingRepository->order($total), 201);
     }
 }
