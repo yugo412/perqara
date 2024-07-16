@@ -4,7 +4,7 @@ namespace App\Domain\Machine;
 
 use JsonSerializable;
 
-readonly class Vending implements JsonSerializable
+readonly class Product implements JsonSerializable
 {
     public function __construct(
         private string $name,
