@@ -7,8 +7,6 @@ use App\Application\Actions\Machine\Vending\GetProductAction;
 use App\Application\Actions\Machine\Vending\ListProductAction;
 use App\Application\Actions\Machine\Vending\OrderProductAction;
 use App\Application\Actions\Machine\Vending\StoreProductAction;
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -23,11 +21,6 @@ return function (App $app) {
     $app->get('/', function (Request $request, Response $response) {
         $response->getBody()->write('Hello world!');
         return $response;
-    });
-
-    $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
     });
 
     $app->group('/vending', function (Group $group): void {
