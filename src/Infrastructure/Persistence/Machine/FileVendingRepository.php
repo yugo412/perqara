@@ -3,18 +3,18 @@
 namespace App\Infrastructure\Persistence\Machine;
 
 use App\Domain\Machine\Order;
-use App\Domain\Machine\Vending;
+use App\Domain\Machine\Product;
 use App\Domain\Machine\VendingRepository;
 use Exception;
 
-class FileVendingRepository implements VendingRepository
+class FileVendingRepository extends Repository implements VendingRepository
 {
     private string $path = '../storage/products.json';
 
     /**
      * @throws Exception
      */
-    public function store(Vending $product): Vending
+    public function store(Product $product): Product
     {
         $products = $this->read();
 
@@ -39,14 +39,14 @@ class FileVendingRepository implements VendingRepository
     public function getAll(): array
     {
         return array_map(function ($product) {
-            return new Vending(...$product);
+            return new Product(...$product);
         }, $this->read());
     }
 
     /**
      * @throws Exception
      */
-    public function get(string $name): ?Vending
+    public function get(string $name): ?Product
     {
         $products = $this->read();
 
@@ -55,7 +55,7 @@ class FileVendingRepository implements VendingRepository
             throw new Exception('Product not found.', 404);
         }
 
-        return new Vending(...$products[$index]);
+        return new Product(...$products[$index]);
     }
 
     /**
@@ -80,29 +80,7 @@ class FileVendingRepository implements VendingRepository
      */
     public function order(float $total): Order
     {
-        $orders = [];
-        $change = $total;
-
-        $products = $this->read();
-        usort($products, fn($a, $b): int => $b['price'] - $a['price']);
-        foreach ($products as ['price' => $price, 'name' => $name]) {
-            if ($change < 0) {
-                break;
-            }
-
-            $count = intval(floor($change / $price));
-
-            if ($count >= 1) {
-                $orders = array_merge(
-                    $orders,
-                    array_fill(empty($orders) ? 0 : count($orders), $count, $name),
-                );
-
-                $change -= $count * $price;
-            }
-        }
-
-        return new Order($orders, $total, $change);
+        return new Order(...$this->processOrder($this->read(), $total));
     }
 
     private function write(array $contents): void
