@@ -2,7 +2,7 @@
 
 namespace App\Application\Actions\Machine\Vending;
 
-use App\Domain\Machine\Vending;
+use App\Domain\Machine\Product;
 use Psr\Http\Message\ResponseInterface as Response;
 use Valitron\Validator;
 
@@ -22,7 +22,7 @@ class StoreProductAction extends VendingAction
         }
 
         return $this->respondWithData(
-            $this->vendingRepository->store(new Vending(...$validator->data())),
+            $this->vendingRepository->store(new Product(...$validator->data())),
             201
         );
     }
