@@ -2,13 +2,15 @@
 
 namespace App\Infrastructure\Persistence\Machine;
 
+use App\Domain\Machine\Product;
+
 abstract class Repository
 {
     protected function find(array $items, string $key, mixed $value): ?array
     {
         $index = $this->findIndex($items, $key, $value);
         if ($index !== false) {
-            return $items[$index];
+            return $items[$index]->jsonSerialize();
         }
 
         return null;
@@ -16,6 +18,14 @@ abstract class Repository
 
     protected function findIndex(array $items, string $key, mixed $value): int|false
     {
+        $items = array_map(function (mixed $item): array {
+            if ($item instanceof Product) {
+                return $item->jsonSerialize();
+            }
+
+            return $item;
+        }, $items);
+
         return array_search($value, array_column($items, $key));
     }
 
