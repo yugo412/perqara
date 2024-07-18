@@ -13,6 +13,9 @@ git clone git@github.com:yugo412/perqara.git yugo-test \
 
 Run the server with these preferred method.
 
+> [!NOTE]  
+> Please make sure port 8080 is not used by any services in the host machine.
+
 ### Using PHP Built-in Server
 
 ```
