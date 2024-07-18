@@ -18,7 +18,7 @@ class StoreProductAction extends VendingAction
             return $this->respondWithData([
                 'message' => 'Validation errors.',
                 'errors' => $validator->errors(),
-            ]);
+            ], 422);
         }
 
         return $this->respondWithData(

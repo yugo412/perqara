@@ -16,7 +16,7 @@ class DeleteProductAction extends VendingAction
         } catch (Exception $e) {
             return $this->respondWithData([
                 'message' => $e->getMessage(),
-            ], $e->getCode());
+            ], 404);
         }
     }
 }

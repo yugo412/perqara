@@ -50,12 +50,12 @@ class FileVendingRepository extends Repository implements VendingRepository
     {
         $products = $this->read();
 
-        $index = array_search($name, array_column($products, 'name'));
-        if ($index === false) {
+        $product = $this->find($products, 'name', $name);
+        if (empty($product)) {
             throw new Exception('Product not found.', 404);
         }
 
-        return new Product(...$products[$index]);
+        return new Product(...$product);
     }
 
     /**
