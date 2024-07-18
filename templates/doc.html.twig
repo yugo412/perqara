@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="SwaggerUI" />
+    <title>SwaggerUI</title>
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" />
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
+<script>
+    window.onload = () => {
+        window.ui = SwaggerUIBundle({
+            dom_id: '#swagger-ui',
+            spec: {
+                openapi: '3.1.0',
+                info: {
+                    title: 'Vending Machine API',
+                    version: '0.0.1',
+                    summary: 'A simple product manager.',
+                    description: 'This is a rest API server for a products in vending machine.',
+                    contact: {
+                        url: "https://github.com/yugo412/perqara",
+                        email: "yugo@vivaldi.net"
+                    }
+                },
+                servers: [
+                    {
+                        url: 'http://localhost:8080',
+                        description: 'Local Server'
+                    }
+                ],
+                paths: {
+                    "/vending": {
+                        get: {
+                            tags: ['Product'],
+                            operationId: 'GetAllProducts',
+                            summary: 'Get all products registered in vending machine',
+                            responses: {
+                                '200': {
+                                    description: 'List of products from vending machine',
+                                    content: {
+                                        'application/json': {
+                                            schema: {
+                                                type: 'array',
+                                                items: {
+                                                    $ref: '#/components/schemas/Product'
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+
+                        post: {
+                            tags: ['Product'],
+                            operationId: 'StoreNewProduct',
+                            summary: 'Add a new product to vending machine, existing product will be updated',
+                            requestBody: {
+                                content: {
+                                    'application/json': {
+                                        schema: {
+                                            $ref: '#/components/schemas/NewProduct'
+                                        }
+                                    }
+                                },
+                                required: true
+                            },
+                            responses: {
+                                '201': {
+                                    description: 'Successful response'
+                                },
+                                '422': {
+                                    description: 'Unprocessable Entity'
+                                }
+                            }
+                        }
+                    },
+
+                    "/vending/product/{name}": {
+                        get: {
+                            tags: ['Product'],
+                            operationId: 'GetExistingProduct',
+                            summary: 'Get existing product from vending machine',
+                            parameters: [
+                                {
+                                    name: 'name',
+                                    in: 'path',
+                                    required: true,
+                                    schema: {
+                                        type: 'string'
+                                    }
+                                }
+                            ],
+                            responses: {
+                                '200': {
+                                    description: 'Successful response',
+                                    content: {
+                                        'application/json': {
+                                            schema: {
+                                                $ref: '#/components/schemas/Product'
+                                            }
+                                        }
+                                    }
+                                },
+                                '404': {
+                                    description: 'Product not found'
+                                }
+                            }
+                        },
+
+                        delete: {
+                            tags: ['Product'],
+                            operationId: 'RemoveExistingProduct',
+                            summary: 'Remove existing product from vending machine',
+                            parameters: [
+                                {
+                                    name: 'name',
+                                    in: 'path',
+                                    required: true,
+                                    schema: {
+                                        type: 'string'
+                                    }
+                                }
+                            ],
+                            responses: {
+                                '204': {
+                                    contentType: 'application/json',
+                                    description: 'Successful response'
+                                },
+                                '404': {
+                                    contentType: 'application/json',
+                                    description: 'Product not found'
+                                }
+                            }
+                        }                    }
+                },
+                components: {
+                    schemas: {
+                        NewProduct: {
+                            type: 'object',
+                            properties: {
+                                name: {
+                                    type: 'string',
+                                    description: 'Name of the product'
+                                },
+                                price: {
+                                    type: 'number',
+                                    format: 'float',
+                                    description: 'Price of the product'
+                                }
+                            },
+                            required: ['name', 'price']
+                        },
+
+                        Product: {
+                            type: 'object',
+                            properties: {
+                                name: {
+                                    type: 'string',
+                                    description: 'Unique name of the product'
+                                },
+                                price: {
+                                    type: 'number',
+                                    format: 'float',
+                                    description: 'Price of the product'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+</script>
+</body>
+</html>
