@@ -27,7 +27,7 @@ The `8080` port is mandatory since it will be used as default host by the docume
 ### Docker Compose
 
 ```
-docker-compose -up -d
+docker-compose up -d
 ```
 
 To ensure the application is running correctly, either use the built-in server or Docker Compose. Please access the URL [http://localhost:8080](http://localhost:8080) to see the index page.
