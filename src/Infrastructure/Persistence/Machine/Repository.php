@@ -10,7 +10,12 @@ abstract class Repository
     {
         $index = $this->findIndex($items, $key, $value);
         if ($index !== false) {
-            return $items[$index]->jsonSerialize();
+            $product = $items[$index];
+            if ($product instanceof Product) {
+                return $product->jsonSerialize();
+            }
+
+            return $product;
         }
 
         return null;
