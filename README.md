@@ -1,42 +1,44 @@
-# Slim Framework 4 Skeleton Application
+# Test Repository
 
-[![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
+This repository is for testing purposes only. It includes a basic CRUD (Create, Read, Update, Delete) API implementation using the Slim 4 framework and a file-based database.
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
+## Installation
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
-
-## Install the Application
-
-Run this command from the directory in which you want to install your new Slim Framework application. You will require PHP 7.4 or newer.
-
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
+Clone the repository:
+```
+git clone git@github.com:yugo412/perqara.git yugo-test && cd yugo-test
 ```
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+Run the server with these preferred method.
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writable.
+### Using PHP Built-in Server
 
-To run the application in development, you can run these commands 
-
-```bash
-cd [my-app-name]
-composer start
+```
+php -S localhost:8080 -t public
 ```
 
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
-```bash
-cd [my-app-name]
-docker-compose up -d
+The `8080` port is mandatory since it will be used as default host by the documentation.
+
+### Docker Compose
+
 ```
-After that, open `http://localhost:8080` in your browser.
+docker-compose -up -d
+```
 
-Run this command in the application directory to run the test suite
+To ensure the application is running correctly, either use the built-in server or Docker Compose. Please access the URL [http://localhost:8080](http://localhost:8080) to see the index page.
 
-```bash
+Rest API documentation can be accessed from URL [http://localhost:8080/doc](http://localhost:8080/doc)
+
+## Tests
+
+The tests can be run using the command below:
+
+```
 composer test
 ```
 
-That's it! Now go build something cool.
+Or, for more complete report, we can use phpunit binary.
+
+```
+./vendor/bin/phpunit --testdox
+```
