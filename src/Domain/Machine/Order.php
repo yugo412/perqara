@@ -10,8 +10,7 @@ readonly class Order implements JsonSerializable
         private array $products,
         private float $total,
         private float $change,
-    )
-    {
+    ) {
     }
 
     public function jsonSerialize(): mixed
