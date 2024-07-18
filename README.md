@@ -6,7 +6,9 @@ This repository is for testing purposes only. It includes a basic CRUD (Create, 
 
 Clone the repository:
 ```
-git clone git@github.com:yugo412/perqara.git yugo-test && cd yugo-test
+git clone git@github.com:yugo412/perqara.git yugo-test \
+ && cd yugo-test \
+ && composer install
 ```
 
 Run the server with these preferred method.
